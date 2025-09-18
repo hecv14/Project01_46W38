@@ -1,5 +1,4 @@
 # %%
-
 def simple_power(wsp_input, pow_rated = 15, wsp_cutin = 3, wsp_rated = 11, wsp_cutout = 25, interp_method="linear"):
     """simple_power is used to roughly interpolate the power in the curve of a
     variable speed WTG. A linear and a cubic interpolation option are given.
@@ -22,9 +21,9 @@ def simple_power(wsp_input, pow_rated = 15, wsp_cutin = 3, wsp_rated = 11, wsp_c
         # using match case here to avoid too many ifs
         match interp_method:
             case "linear":
-                g_fwsp = (wsp_input - wsp_cutin)/(wsp_rated - wsp_cutin)
-            case "cubic":
                 # g_fwsp is the weighting function pow_out / pow_rated as f(wsp)
+                g_fwsp = (wsp_input - wsp_cutin)/(wsp_rated - wsp_cutin)
+            case "cubic":                
                 g_fwsp = (wsp_input**3 )/(wsp_rated**3)
             case _:
                 print('WARNING interpolation method not recognized, will use "linear"')
@@ -36,5 +35,23 @@ def simple_power(wsp_input, pow_rated = 15, wsp_cutin = 3, wsp_rated = 11, wsp_c
         pow_out = 0
     return pow_out
 
+# %%
+if __name__ == '__main__':
+    # Write the main script to use the function here:
+    # test the function with wind speeds from 0 to 1m/s above cut-out
+    for wsp in range(27):
+        pow = simple_power(wsp) # linear
+        print(f"{wsp}, {pow}")
+    print('\n')
+
+    for wsp in range(27):
+        pow = simple_power(wsp, interp_method="cubic")
+        print(f"{wsp}, {pow}")
+    print('\n')
+
+    for wsp in range(27):
+        pow = simple_power(wsp, interp_method="typo") # test bad input
+        print(f"{wsp}, {pow}")
+    print('\n')
 
 # %%
