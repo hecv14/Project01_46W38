@@ -61,19 +61,19 @@ if __name__ == '__main__':
     # Write the main script to use the function here:
     # test the function with wind speeds from 0 to 1m/s above cut-out
     print('using linear interpolation.')
-    for wsp in range(26):
+    for wsp in range(27):
         pow = simple_power(wsp) # linear
         print(f"{wsp}, {pow:,.2f}")
     print('\n')
 
     print('using cubic interpolation.')
-    for wsp in range(26):
+    for wsp in range(27):
         pow = simple_power(wsp, interp_method="cubic")
         print(f"{wsp}, {pow:,.2f}")
     print('\n')
 
     print('using wrong arg. for interpolation.')
-    for wsp in range(26):
+    for wsp in range(27):
         pow = simple_power(wsp, interp_method="typo") # test bad input
         print(f"{wsp}, {pow:,.2f}")
     print('\n')
