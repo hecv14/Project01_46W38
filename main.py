@@ -1,4 +1,7 @@
 # %%
+import math 
+
+# %%
 def simple_power(wsp_input: float | int,
                 pow_rated: float | int = 15,
                 wsp_cutin: float | int = 3,
@@ -36,12 +39,12 @@ def simple_power(wsp_input: float | int,
                 try:
                     g_fwsp = (wsp_input - wsp_cutin) / (wsp_rated - wsp_cutin)
                 except ZeroDivisionError:
-                    g_fwsp = float('inf') # keep it running but warn user
+                    g_fwsp = float('nan') # keep it running but warn user
                     print("Zero Division Error: wsp_cutin cannot equal wsp_rated!")
             case "cubic":                
                 try: g_fwsp = (wsp_input**3 )/(wsp_rated**3)
                 except ZeroDivisionError:
-                    g_fwsp = float('inf') # keep it running but warn user
+                    g_fwsp = float('nan') # keep it running but warn user
                     print("Zero Division Error: wsp_rated cannot be 0!")
         # with the weighting factor find the power output
         pow_out = g_fwsp * pow_rated
@@ -52,6 +55,10 @@ def simple_power(wsp_input: float | int,
     elif wsp_input >= wsp_cutout: # WTG shut-down starting wsp_cutout
         pow_out = 0
 
+    else: # unexpected wind speed e.g., negative
+        pow_out = float('nan')
+        print(f"unexpected wind speed {wsp_input}")
+
     return pow_out
 
 
@@ -59,7 +66,7 @@ def simple_power(wsp_input: float | int,
 if __name__ == '__main__':
     # Write the main script to use the function here:
 
-    # test the function with wind speeds from 0 to 1m/s above cut-out
+# test the function with wind speeds from 0 to 1m/s above cut-out
     print('using linear interpolation.')
     for wsp in range(27):
         pow = simple_power(wsp) # linear
@@ -78,8 +85,7 @@ if __name__ == '__main__':
         print(f"{wsp}, {pow:,.2f}")
     print('\n')
 
-    # TODO: future validation development
-    # simple_power(-2) # UnboundLocalError: cannot access local variable 'pow_out' where it is not associated with a value
-    # simple_power(wsp_input="5") # TypeError: '<=' not supported between instances of 'int' and 'str'
+    print('negative wind speed')
+    simple_power(-2) # nan
 
 # %%
