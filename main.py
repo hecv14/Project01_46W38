@@ -40,7 +40,7 @@ def simple_power(wsp_input: float | int,
                     g_fwsp = (wsp_input - wsp_cutin) / (wsp_rated - wsp_cutin)
                 except ZeroDivisionError:
                     g_fwsp = float('nan') # keep it running but warn user
-                    print("Zero Division Error: wsp_cutin cannot equal wsp_rated!")
+                    print("Zero Division Error: wsp_cutin cannot = wsp_rated!")
             case "cubic":                
                 try: g_fwsp = (wsp_input**3 )/(wsp_rated**3)
                 except ZeroDivisionError:
